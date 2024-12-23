@@ -1,0 +1,59 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:lab4new="clr-namespace:Lab4New"
+             x:Class="Lab4New.MainPage"
+             Background="LightGray">
+
+    <ContentPage.BindingContext>
+         <lab4new:EditViewModel/>
+    </ContentPage.BindingContext>
+    <ContentPage.Resources>
+        <Style TargetType="Button">
+            <Setter Property="TextColor" Value="Black" />
+            <Setter Property="BackgroundColor" Value="LightBlue" />
+            <Setter Property="Margin" Value="10" />
+            <Setter Property="WidthRequest" Value="300"/>
+            <Setter Property="HeightRequest" Value="80"/>
+            <Setter Property="FontSize" Value="20"/>
+        </Style>
+    </ContentPage.Resources>
+
+    <ScrollView>
+        <VerticalStackLayout
+            Spacing="25"
+            Padding="30,0"
+            VerticalOptions="Center"
+            HorizontalOptions="Center">
+            <Label Text="Добро пожаловать в Фоторедактор" HorizontalOptions="Center" TextColor="Black" LineBreakMode="CharacterWrap" FontAttributes="Italic" FontSize="Title"/>
+            <Label Text="Выберите действие" HorizontalOptions="Center" LineBreakMode="CharacterWrap" FontAttributes="Italic" FontSize="Subtitle" TextColor="Black"/>
+            
+            <Image Source="{Binding MyImage}" x:Name="my_image" MaximumHeightRequest="300" MaximumWidthRequest="300" />
+            
+            <HorizontalStackLayout HorizontalOptions="Center">
+                <Button Text="Добавить фото" Command="{Binding AddPhotoCommand}"/>
+                <Button Text="Осветление" Command="{Binding LightCommand}" IsEnabled="{Binding IsPhotoLoaded}"/>
+            </HorizontalStackLayout>
+
+            <HorizontalStackLayout HorizontalOptions="Center">
+                <Button Text="Контраст" Command="{Binding ContrastCommand}" IsEnabled="{Binding IsPhotoLoaded}"/>
+                <Button Text="Обрезать фото" Clicked="OpenCropToPhoto" Command="{Binding GetDataCommand}" IsEnabled="{Binding IsPhotoLoaded}"/>
+            </HorizontalStackLayout>
+
+            <HorizontalStackLayout HorizontalOptions="Center">
+                <Button Text="Поворот на 90" Command="{Binding TurnCommand}" IsEnabled="{Binding IsPhotoLoaded}"/>
+                <Button Text="Добавить текст" Clicked="OpenAddTextToPhoto" Command="{Binding GetDataCommand}" IsEnabled="{Binding IsPhotoLoaded}"/>
+            </HorizontalStackLayout>
+            <HorizontalStackLayout HorizontalOptions="Center">
+                <Button Text="Изменить пиксель" Clicked="OpenSetPixelToPhoto" Command="{Binding GetDataCommand}" IsEnabled="{Binding IsPhotoLoaded}"/>
+                <Button Text="Составить коллаж" Clicked="OpenCollageToPhoto" IsEnabled="{Binding IsPhotoLoaded}"/>
+            </HorizontalStackLayout>
+            <HorizontalStackLayout HorizontalOptions="Center">
+                <Button Text="Сбросить изменения" Command="{Binding DeleteCommand}" IsEnabled="{Binding IsPhotoLoaded}"/>
+            </HorizontalStackLayout>
+        </VerticalStackLayout>
+    </ScrollView>
+
+
+</ContentPage>
+
