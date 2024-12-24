@@ -60,6 +60,7 @@ namespace Lab4New
             DeleteAllImagesCommand = new Command(DeleteAllP);
             GetDataCommand = new Command(GetDataPhoto);
             UpdateWithAndHeightCroped();
+            //CountPhotos = 1;
         }
 
         private void UpdateWithAndHeightCroped()
@@ -91,11 +92,21 @@ namespace Lab4New
                 FullPath = newpath;
                 OriginPath = fullpath;
                 OriginImage = PhotoEditor.LoadPhoto(OriginPath);
-                CountPhotos = 1;
+                CountPhotos = CountPhotos == 0 ? 1 : CountPhotos;
+                if (Flag == false)
+                {
+                    AllImages.Add(EditImage);
+                    Flag = true;
+                }
             }
         }
         async void AddPhotoFromCollage()
         {
+            if (Flag == false)
+            {
+                AllImages.Add(EditImage);
+                Flag = true;
+            }
             var result = await FilePicker.PickAsync(OptionsTypeFile());
             if (result != null)
             {
@@ -123,11 +134,7 @@ namespace Lab4New
         }
         async void CreateCollagePhoto()
         {
-            if (Flag == false)
-            {
-                AllImages.Add(EditImage);
-                Flag = true;
-            }
+           
             if (AllImages.Count <= 1)
             {
                 await App.Current.MainPage.DisplayAlert("Ошибка", "Недостаточно фото", "OK");
@@ -195,6 +202,9 @@ namespace Lab4New
             File.Copy(OriginPath, FullPath, true);
             EditImage = PhotoEditor.LoadPhoto(FullPath);
             MyImage = FullPath;
+            AllImages.Clear();
+            Flag = false;
+            CountPhotos = 1;
         }
         private void DeleteAllP()
         {
